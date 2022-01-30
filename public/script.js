@@ -17,7 +17,7 @@ const editor = grapesjs.init({
     blocks: [
       {
         id: 'section', // id is mandatory
-        label: '<b>Section</b>', // You can use HTML/SVG inside labels
+        label: '<b style="font-size: 20px;">Section</b>', // You can use HTML/SVG inside labels
         attributes: { class:'gjs-block-section' },
         content: `<section>
           <h1>This is a simple title</h1>
@@ -25,11 +25,11 @@ const editor = grapesjs.init({
         </section>`,
       }, {
         id: 'text',
-        label: 'Text',
+        label: '<b style="font-size: 20px;">Text</b>',
         content: '<div data-gjs-type="text">Insert your text here</div>',
       }, {
         id: 'image',
-        label: 'Image',
+        label: '<b style="font-size: 20px;">Image</b>',
         // Select the component once it's dropped
         select: true,
         // You can pass components as a JSON instead of a simple HTML string,
@@ -40,7 +40,7 @@ const editor = grapesjs.init({
         activate: true,
       }, {
         id: 'column',
-        label: 'Column',
+        label: '<b style="font-size: 20px;">Column</b>',
         // Select the component once it's dropped
         select: true,
         // You can pass components as a JSON instead of a simple HTML string,
@@ -54,14 +54,14 @@ const editor = grapesjs.init({
         activate: true,
       }, {
         id: 'button',
-        label: 'Button',
+        label: '<b style="font-size: 20px;">Button</b>',
         select: true,
         content: `<div class="button">
         <button>Button</button></div>`,
         activate: true,
       },{
           id: 'navbar',
-          label: 'NavBar',
+          label: '<b style="font-size: 20px;">NavBar</b>',
           select: true,
           content: `<div class="navbar" style="height:50px; font-size:30px; display: flex; align-items: center; justify-items:center;background: black; color: white;">
           <a1 style="margin-left:600px;padding : 11px">Home</a1>
@@ -70,7 +70,7 @@ const editor = grapesjs.init({
           activate: true,
       }, {
           id: 'fotter',
-          label: 'Fotter',
+          label: '<b style="font-size: 20px;">Fotter</b>',
           select: true,
           content: `<div class="fotter" style="height: 300px; background: black; color:white; margin-top: 393px;box-sizing: border-box;padding: 15px;">
           <f1 style=" font-size: 30px; width: 400px; margin-left: 100px;margin-top:20px; padding: 5px;">Fotter</f1>
@@ -130,7 +130,7 @@ const editor = grapesjs.init({
       buttons: [{
           id: 'show-layers',
           active: true,
-          label: 'Layers',
+          label: '<b style="margin:20px;">Layers</b>',
           command: 'show-layers',
           // Once activated disable the possibility to turn it off
           togglable: false,
@@ -138,7 +138,7 @@ const editor = grapesjs.init({
           id: 'show-style',
           active: true,
           className: 'fa fa-paint-brush',
-          label: '  Styles',
+          label: '<b style="margin:20px;">Styles</b>',
           command: 'show-styles',
           togglable: false,
       }],
@@ -185,28 +185,41 @@ const editor = grapesjs.init({
         name: 'Dimension',
         open: false,
         // Use built-in properties
-        buildProps: ['width', 'min-height', 'padding','margin','display'],
+        buildProps: ['width', 'min-height', 'padding', 'margin', 'display', 'position', 'text-align'],
         // Use `properties` to define/override single property
         properties: [
           {
             // Type of the input,
             // options: integer | radio | select | color | slider | file | composite | stack
             type: 'integer',
-            name: 'The width', // Label for the property
+            name: 'Width', // Label for the property
             property: 'width', // CSS property (if buildProps contains it will be extended)
             units: ['px', '%'], // Units, available only for 'integer' types
             defaults: 'auto', // Default value
             min: 0, // Min value, available only for 'integer' types
-          }
+          }, {
+            type: 'select',
+            property: 'display',
+            label: 'Display',
+            default: 'block',
+            // Additional props
+            options: [
+              {id: 'block', label: 'Block'},
+              {id: 'inline', label: 'Inline'},
+              {id: 'none', label: 'None'},
+              {id: 'flex', label: 'Flex'},
+              {id: 'grid', label: 'Grid'},
+            ]
+          },
         ]
       },{
-        name: 'Extra',
+        name: 'Font Features',
         open: false,
-        buildProps: ['background-color', 'box-shadow', 'custom-prop'],
+        buildProps: ['custom-prop','font-style', 'font-family', 'font-weight', 'letter-spacing', 'word-spacing'],
         properties: [
           {
             id: 'custom-prop',
-            name: 'Custom Label',
+            name: 'Font Size',
             property: 'font-size',
             type: 'select',
             defaults: '32px',
@@ -218,6 +231,26 @@ const editor = grapesjs.init({
             ],
          }
         ]
+      },{
+        name: 'Animations',
+        open: false,
+        buildProps: ['transition', 'transform'],
+        properties: [
+          {
+            type: "select",
+            label: "animation",
+            name: 'Animation',
+            options: [
+              { value: 'bounce', name: 'Bounce' },
+              { value: 'hover', name: 'Hover' },
+              { value: 'onclick', name: 'Onclick' },
+            ],
+         }
+        ]
+      },{
+        name: 'Extra',
+        open: false,
+        buildProps: ['background-color', 'color', 'box-shadow', 'text-shadow'],
       }]
   },
 });
@@ -254,18 +287,18 @@ editor.Panels.addPanel({
       id: 'visibility',
       active: true, // active by default
       className: 'btn-toggle-borders',
-      label: '<u>B</u>',
+      label: '<u style="margin: 16px;">B</u>',
       command: 'sw-visibility', // Built-in command
     }, {
       id: 'export',
       className: 'btn-open-export',
-      label: 'Exp',
+      label: '<a style="margin: 16px;">Exp</a>',
       command: 'export-template',
       context: 'export-template', // For grouping context of buttons from the same panel
     }, {
       id: 'show-json',
       className: 'btn-show-json',
-      label: 'JSON',
+      label: '<b style="margin: 16px;">JSON</b>',
       context: 'show-json',
       command(editor) {
         editor.Modal.setTitle('Components JSON')

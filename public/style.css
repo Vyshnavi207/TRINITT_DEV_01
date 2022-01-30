@@ -17,8 +17,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* font-size: 11px; */
     padding: 16px;
+    margin-top: 29px;
   }
   .panel__top {
     padding: 0;
@@ -65,9 +65,15 @@
   .panel__switcher {
     position: initial;
   }
-  
+
   .panel__devices {
     position: initial;
   }  
+
+  .gjs-block-c{
+    box-sizing: border-box;
+    font-size: 20px;
+  }
+  
 
   
